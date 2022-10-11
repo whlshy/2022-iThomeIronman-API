@@ -6,6 +6,9 @@ const fs = require("fs")
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+var cors = require('cors')
+app.use(cors())
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
