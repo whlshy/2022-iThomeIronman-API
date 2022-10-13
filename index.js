@@ -40,7 +40,7 @@ app.get('/api/Note/:v', (req, res) => {
     const { v } = req.params
 
     const data = JSON.parse(fs.readFileSync('./json/mark.json', 'utf8'))
-    res.json(data[v])
+    res.json(data[v].filter(f => f.bDel == false))
 })
 
 // 新增影片內的標記
@@ -50,7 +50,7 @@ app.post('/api/Note/:v', (req, res) => {
 
     let data = JSON.parse(fs.readFileSync('./json/mark.json', 'utf8'))
     if (data[v]) {
-        data[v][data[v].length] = { sec, content, bDel: false }
+        data[v][data[v].length] = { id: data[v].length, sec, content, bDel: false }
     }
     fs.writeFile('./json/mark.json', JSON.stringify(data), function (err) {
         if (err)
@@ -82,7 +82,7 @@ app.put('/api/Note/:v', (req, res) => {
 // 刪除影片內的標記
 app.delete('/api/Note/:v', (req, res) => {
     const { v } = req.params
-    const { id, sec, content } = req.body
+    const { id } = req.body
 
     let data = JSON.parse(fs.readFileSync('./json/mark.json', 'utf8'))
     if (data[v]) {
